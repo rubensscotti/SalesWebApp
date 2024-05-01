@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SalesWebApp.Data;
+using SalesWebApp.Services;
 
 namespace SalesWebApp
 {
@@ -20,6 +21,7 @@ namespace SalesWebApp
 
             // Add services to the container.
             builder.Services.AddScoped<SeendingService>();
+            builder.Services.AddScoped<SellerService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
