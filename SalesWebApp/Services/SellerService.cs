@@ -1,5 +1,7 @@
-﻿using SalesWebApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesWebApp.Data;
 using SalesWebApp.Models;
+using SalesWebApp.Services.Exceptions;
 
 namespace SalesWebApp.Services
 {
@@ -25,7 +27,7 @@ namespace SalesWebApp.Services
 
         public Seller FindById(int id)
         {
-            return _appContext.Seller.FirstOrDefault(obj => obj.Id == id);
+            return _appContext.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
 
         public void Remove(int id)
@@ -33,6 +35,23 @@ namespace SalesWebApp.Services
             var obj = _appContext.Seller.Find(id);
             _appContext.Seller.Remove(obj);
             _appContext.SaveChanges();
+        }
+
+        public void Update(Seller obj)
+        {
+            if(!_appContext.Seller.Any(x =>  x.Id == obj.Id))
+            {
+                throw new Exception("Id not found");
+            }
+            try
+            {
+                _appContext.Update(obj);
+                _appContext.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new DbConcurrencyException(ex.Message);
+            }
         }
     }
 }
