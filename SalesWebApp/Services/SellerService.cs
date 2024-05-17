@@ -32,12 +32,20 @@ namespace SalesWebApp.Services
 
         public async Task RemoveAsync(int id)
         {
+            try 
+            { 
             var obj = await _appContext.Seller.FindAsync(id);
             _appContext.Seller.Remove(obj);
             await _appContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException("You can't delete a seller who has a sales record");
+            }
+           
         }
 
-        public async Task Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
             bool hasAny = await _appContext.Seller.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)
