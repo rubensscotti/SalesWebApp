@@ -24,6 +24,7 @@ namespace SalesWebApp
             builder.Services.AddScoped<SeendingService>();
             builder.Services.AddScoped<SellerService>();
             builder.Services.AddScoped<DepartmentService>();
+            builder.Services.AddScoped<SalesRecordService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
