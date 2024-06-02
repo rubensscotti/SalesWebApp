@@ -38,7 +38,6 @@ namespace SalesWebApp.Models
 
         public Seller(int id, string name, string email, DateTime birthDate, double baseSalary, Department department)
         {
-            //Id = id;
             Name = name;
             Email = email;
             BirthDate = birthDate;
@@ -52,7 +51,7 @@ namespace SalesWebApp.Models
             Sales.Add(sales);
         }
 
-        public void RemoveSales(SalesRecord sales, int Id)
+        public void RemoveSales(SalesRecord sales)
         {
             Sales.Remove(sales);
         }

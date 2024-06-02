@@ -35,14 +35,6 @@ namespace SalesWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Seller seller)
         {
-            //Validation of filling out the registration form / Validação de preenchimento do formulário de cadastro
-            if (!ModelState.IsValid)
-            {
-                var departments = await _departmentService.FindAllAsync();
-                var viewModel = new SellerFormViewModels { Seller = seller, Departments = departments };
-                return View(viewModel);
-            }
-
             await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -118,13 +110,6 @@ namespace SalesWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Seller seller)
         {
-            //Validation of filling out the registration form / Validação de preenchimento do formulário de cadastro
-            if (!ModelState.IsValid)
-            {
-                var departments = await _departmentService.FindAllAsync();
-                var viewModel = new SellerFormViewModels { Seller = seller, Departments = departments };
-                return View(viewModel);
-            }
             //Id validation
             if (id != seller.Id)
             {
@@ -132,7 +117,7 @@ namespace SalesWebApp.Controllers
             }
             try
             {
-                await _sellerService.InsertAsync(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction(nameof(Index));
             }
             catch (NotFoundException e)
